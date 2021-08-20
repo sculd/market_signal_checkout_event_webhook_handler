@@ -4,18 +4,12 @@ import stripe
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY') 
 
-_PRICE_ID_LIGHT = os.getenv('STRIPE_PRICE_ID_LIGHT')
-_PRICE_ID_PREMIUM = os.getenv('STRIPE_PRICE_ID_PREMIUM')
-_SUBSCRIPTION_PAGE_URL = os.getenv('SUBSCRIPTION_PAGE_URL')
-
+_STRIPE_WEBHOOK_ENDPOINT_SECRET = os.getenv('STRIPE_WEBHOOK_ENDPOINT_SECRET') 
 _EVENT_KEY_PATH_PARAMETER = 'pathParameters'
 _EVENT_KEY_QUERY_STRING_PARAMETER = 'queryStringParameters'
 _EVENT_KEY_HTTP_METHOD = 'httpMethod'
 _EVENT_KEY_BODY = 'body'
 _EVENT_KEY_HEADERS = 'headers'
-_PARAM_KEY_PRICE_TYPE = 'price_type'
-_PRICE_TYPE_LIGHT = 'light'
-_PRICE_TYPE_PREMIUM = 'premium'
 
 
 _RESPONSE_303 = {
@@ -87,7 +81,7 @@ def lambda_handler(event, context):
 
     try:
         stripe_event = stripe.Webhook.construct_event(
-          json_body, sig_header, endpoint_secret
+          json_body, sig_header, _STRIPE_WEBHOOK_ENDPOINT_SECRET
         )
         print('stripe_event:', stripe_event)
     except ValueError as e:
