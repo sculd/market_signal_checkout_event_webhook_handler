@@ -98,7 +98,7 @@ def lambda_handler(event, context):
         stripe_event = stripe.Webhook.construct_event(
           payload, sig_header, endpoint_secret
         )
-        print('stripe_event': stripe_event)
+        print('stripe_event:', stripe_event)
     except ValueError as e:
         # Invalid payload
         return HttpResponse(status=400)
