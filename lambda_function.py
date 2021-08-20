@@ -54,7 +54,6 @@ _RESPONSE_500 = {
         }
     }
 
-
 def lambda_handler(event, context):
     print('event:', event)
     query_string_parameters = event[_EVENT_KEY_QUERY_STRING_PARAMETER]
@@ -84,12 +83,13 @@ def lambda_handler(event, context):
     payload = json.loads(body)
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     const sig = request.headers['stripe-signature'];
-    event = None
+    stripe_event = None
 
     try:
-        event = stripe.Webhook.construct_event(
+        stripe_event = stripe.Webhook.construct_event(
           payload, sig_header, endpoint_secret
         )
+        print('stripe_event': stripe_event)
     except ValueError as e:
         # Invalid payload
         return HttpResponse(status=400)
