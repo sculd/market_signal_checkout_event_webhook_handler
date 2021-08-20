@@ -11,6 +11,7 @@ _SUBSCRIPTION_PAGE_URL = os.getenv('SUBSCRIPTION_PAGE_URL')
 _EVENT_KEY_PATH_PARAMETER = 'pathParameters'
 _EVENT_KEY_QUERY_STRING_PARAMETER = 'queryStringParameters'
 _EVENT_KEY_HTTP_METHOD = 'httpMethod'
+_EVENT_KEY_BODY = 'body'
 _EVENT_KEY_HEADERS = 'headers'
 _PARAM_KEY_PRICE_TYPE = 'price_type'
 _PRICE_TYPE_LIGHT = 'light'
