@@ -59,21 +59,15 @@ def lambda_handler(event, context):
     query_string_parameters = event[_EVENT_KEY_QUERY_STRING_PARAMETER]
     print("query_string_parameters:", query_string_parameters)
 
-    alert_id = None
-    if_create_new_alert = True
-    if _PATH_PARAMETER_ALERT in path_parameters:
-        alert_id = path_parameters[_PATH_PARAMETER_ALERT]
-        if_create_new_alert = False
-
     if _EVENT_KEY_BODY not in event:
         res = _RESPONSE_400
-        res['body'] = json.dumps('event body is not found.'.format(alert_id=alert_id))
+        res['body'] = json.dumps('event body is not found.')
         return res
 
     body = event[_EVENT_KEY_BODY]
     if body is None:
         res = _RESPONSE_400
-        res['body'] = json.dumps('request body is not found.'.format(alert_id=alert_id))
+        res['body'] = json.dumps('request body is not found.')
         return res
 
     print('body:', body)
