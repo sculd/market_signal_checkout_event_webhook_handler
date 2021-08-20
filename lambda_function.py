@@ -49,6 +49,15 @@ _RESPONSE_500 = {
         }
     }
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            return int(obj)
+        elif isinstance(obj, datetime.datetime):
+            return obj.strftime(_DATETIME_FORMAT)
+        # Let the base class default method raise the TypeError
+        return json.JSONEncoder.default(self, obj)
+
 def lambda_handler(event, context):
     print('event:', event)
     query_string_parameters = event[_EVENT_KEY_QUERY_STRING_PARAMETER]
