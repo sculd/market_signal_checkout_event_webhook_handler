@@ -1,6 +1,5 @@
 import datetime, decimal, os
 import json
-import authorize
 import stripe
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY') 
