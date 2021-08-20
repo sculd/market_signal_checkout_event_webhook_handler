@@ -71,11 +71,8 @@ def lambda_handler(event, context):
         res['body'] = json.dumps('request body is not found.')
         return res
 
-    print('body:', body)
-    body = json.loads(body)
-    print('json body:', body)
-
-    payload = json.loads(body)
+    json_body = json.loads(body)
+    print('json body:', json_body)
 
     headers = None
     if _EVENT_KEY_HEADERS in event:
@@ -90,7 +87,7 @@ def lambda_handler(event, context):
 
     try:
         stripe_event = stripe.Webhook.construct_event(
-          payload, sig_header, endpoint_secret
+          json_body, sig_header, endpoint_secret
         )
         print('stripe_event:', stripe_event)
     except ValueError as e:
