@@ -80,8 +80,10 @@ def lambda_handler(event, context):
     stripe_event = None
 
     try:
+        print('sig_header:', sig_header)
+        print('_STRIPE_WEBHOOK_ENDPOINT_SECRET:', _STRIPE_WEBHOOK_ENDPOINT_SECRET)
         stripe_event = stripe.Webhook.construct_event(
-          json_body, sig_header, _STRIPE_WEBHOOK_ENDPOINT_SECRET
+          body, sig_header, _STRIPE_WEBHOOK_ENDPOINT_SECRET
         )
         print('stripe_event:', stripe_event)
     except ValueError as e:
