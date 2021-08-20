@@ -85,14 +85,13 @@ def lambda_handler(event, context):
         )
         print('stripe_event:', stripe_event)
     except ValueError as e:
-        # Invalid payload
-        return HttpResponse(status=400)
+        res = _RESPONSE_400
+        res['body'] = json.dumps('Invalid payload.')
+        return res
     except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
-        return HttpResponse(status=400)
-
-    # Passed signature verification
-    return HttpResponse(status=200)
+        res = _RESPONSE_400
+        res['body'] = json.dumps('Invalid signature.')
+        return res
 
     result = {}
 
