@@ -12,6 +12,7 @@ _SUBSCRIPTION_PAGE_URL = os.getenv('SUBSCRIPTION_PAGE_URL')
 _EVENT_KEY_PATH_PARAMETER = 'pathParameters'
 _EVENT_KEY_QUERY_STRING_PARAMETER = 'queryStringParameters'
 _EVENT_KEY_HTTP_METHOD = 'httpMethod'
+_EVENT_KEY_HEADERS = 'headers'
 _PARAM_KEY_PRICE_TYPE = 'price_type'
 _PRICE_TYPE_LIGHT = 'light'
 _PRICE_TYPE_PREMIUM = 'premium'
@@ -81,8 +82,16 @@ def lambda_handler(event, context):
     print('json body:', body)
 
     payload = json.loads(body)
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    const sig = request.headers['stripe-signature'];
+
+    headers = None
+    if _EVENT_KEY_HEADERS in event:
+        headers = event[_EVENT_KEY_HEADERS]
+    if not headers:
+        res = _RESPONSE_400
+        res['body'] = json.dumps('request header is empty.'.format(alert_id=alert_id))
+        return res
+
+    sig_header = headers['Stripe-Signature'];
     stripe_event = None
 
     try:
